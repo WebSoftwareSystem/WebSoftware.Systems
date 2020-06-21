@@ -1,9 +1,9 @@
+
   * Status: **DEV**
+  * Homepage: [WebSoftware.Systems](https://WebSoftware.Systems)
 
 Web Software System
 ===================
-
-Homepage: http://WebSoftware.Systems
 
 > A **Web Software System** is a collection of networked components representing different aspects of a presence, organized in patterns and manifest using browser/server technology.
 
@@ -14,17 +14,26 @@ All parts of a system can be represented by a model and a model can be composed 
 Guides
 ======
 
-  * [Scope]() - An outline of a Web Software System and all of its aspects.
+  * **Scope** - An outline of a Web Software System and all of its aspects.
 
-  * [Platforms]() - The technology platforms available to host a Web Software System.
+  * **Platforms** - The technology platforms available to host a Web Software System.
 
-  * [Tools]() - The types of tools needed to build & maintain a Web Software System.
+  * **Tools** - The types of tools needed to build & maintain a Web Software System.
 
-  * [Example]() - A step-by-step explanation of this project which it itself a Web Software System.
+  * **Methodology** - The approaches that work best for Web Software Systems.
+
+  * [Example](./docs/guides/Example.md) - A step-by-step explanation of this project which it itself a Web Software System.
 
 
-License
-=======
+Usage
+=====
+
+    git clone https://github.com/WebSoftwareSystem/WebSoftware.Systems.git
+    cd WebSoftware.Systems
+    ./run.sh
+
+Licenses
+========
 
 Copyright &copy; 2020 [Christoph Dorn](http://christophdorn.com).
 
