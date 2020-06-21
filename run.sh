@@ -47,11 +47,30 @@ popd > /dev/null
 
 
 ################################################################################
-_heading "Run workspace instructions from './#!/#!inf.json' using 'pinf.it'."
+_heading "Act based on input arguments."
 ################################################################################
 
-pushd "${WSS_WORKSPACE_ROOT_PATH}" > /dev/null
+if [ ":$1" == ":--help" ]; then
+    ################################################################################
+    _heading "Display usage information."
+    ################################################################################
 
-    pinf.it ./
+    echo '
+  Usage: run.sh [<Options>]
 
-popd > /dev/null
+  <Options>:
+
+      --reset <Aspect>        Where <Aspect> is one of:
+                                w01      Workspace Level 01 (git)
+'
+else
+    ################################################################################
+    _heading "Run workspace instructions from './#!/#!inf.json' using 'pinf.it'."
+    ################################################################################
+
+    pushd "${WSS_WORKSPACE_ROOT_PATH}" > /dev/null
+
+        pinf.it ./ -- $@
+
+    popd > /dev/null
+fi

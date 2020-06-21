@@ -22,15 +22,16 @@ Guides
 
   * **Methodology** - The approaches that work best for Web Software Systems.
 
-  * [Example](./docs/guides/Example.md) - A step-by-step explanation of this project which is itself a Web Software System.
-
+  * [Example](./docs/guides/Example.md) - A step-by-step explanation of this project which is itself a Web Software System. [![Run](https://github.com/WebSoftwareSystem/WebSoftware.Systems/workflows/Run/badge.svg?branch=sm%2Fmaster)](https://github.com/WebSoftwareSystem/WebSoftware.Systems/actions?query=workflow%3AWorkspace)
 
 Usage
 =====
 
     git clone https://github.com/WebSoftwareSystem/WebSoftware.Systems.git
     cd WebSoftware.Systems
+
     ./run.sh
+    ./run.sh --help
 
 Licenses
 ========

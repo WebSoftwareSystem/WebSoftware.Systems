@@ -19,7 +19,9 @@ When building a Web Software System (WSS) a core set of tools are necessary and 
 
     git clone https://github.com/WebSoftwareSystem/WebSoftware.Systems.git
     cd WebSoftware.Systems
+
     ./run.sh
+    ./run.sh --help
 
 03 - Bootstrapping
 ------------------
