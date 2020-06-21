@@ -5,8 +5,8 @@
     "# run": (run.javascript.progress (ENV) >>>
 
         const PATH = require("path");
-        const FS = require("@pinf-it/inf/node_modules/fs-extra");
-        const ESCAPE_REGEXP = require("@pinf-it/inf/node_modules/escape-regexp");
+        const FS = require("fs-extra");
+        const ESCAPE_REGEXP = require("escape-regexp");
     
         const path = PATH.join(ENV.WSS_WORKSPACE_ROOT_PATH, '.git/info/exclude');
         let content = await FS.readFile(path, 'utf8');

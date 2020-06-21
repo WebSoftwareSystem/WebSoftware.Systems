@@ -40,6 +40,7 @@ pushd "${WSS_WORKSPACE_ROOT_PATH}/#!" > /dev/null
         echo '{}' > package.json
     fi
     if [ ! -e "${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules/.bin/pinf.it" ]; then
+        # TODO: Install a distribution build of 'pinf.it' that can be locked by checksum.
         npm install @pinf-it/core@0.1.0-pre.0
     fi
 popd > /dev/null
