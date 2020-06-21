@@ -115,4 +115,4 @@ This boot stability property can be satisfied in a *local context* by booting th
 
 Tools can be employed to configure [Github Actions](https://github.com/features/actions) and other services through minimal configuration and thus the pursuit of **solid stability** can be easily seeded for any project. The reader is cautioned that the use of Github is not necessarily recommended and only suggested to easily satisfy this boot stability property, and others, in cases where the author feels it is appropriate. There are many other options available and the free exchange to how a property is realized is an essential tenet of a WSS.
 
-Details for how this is done for this WSS project can be found in `./#!/Workspace-01.inf.json`.
+The bootstrap control flow of the `git` workspace level of this WSS project can be found in `./#!/Workspace-01.inf.json` which references instruction modules from `./#!/Workspace-01/*.inf.json`.

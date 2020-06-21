@@ -22,7 +22,7 @@ Guides
 
   * **Methodology** - The approaches that work best for Web Software Systems.
 
-  * [Example](./docs/guides/Example.md) - A step-by-step explanation of this project which it itself a Web Software System.
+  * [Example](./docs/guides/Example.md) - A step-by-step explanation of this project which is itself a Web Software System.
 
 
 Usage
@@ -37,8 +37,7 @@ Licenses
 
 Copyright &copy; 2020 [Christoph Dorn](http://christophdorn.com).
 
-Documentation is licensed under a <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
-
-Code is licensed under the [Open Software License (OSL 3.0)](https://opensource.org/licenses/OSL-3.0).
-Contributions must be licensed under the [Academic Free License (AFL 3.0)](https://opensource.org/licenses/AFL-3.0).
-Learn about the OSL & AFL Licenses [here](http://rosenlaw.com/OSL3.0-explained.htm).
+  * Documentation is licensed under the <a href="http://creativecommons.org/licenses/by-nc-sa/4.0/">Creative Commons Attribution-NonCommercial-ShareAlike 4.0 International License</a>.
+  * Code is licensed under the [Open Software License (OSL 3.0)](https://opensource.org/licenses/OSL-3.0).
+  * Contributions must be licensed under the [Academic Free License (AFL 3.0)](https://opensource.org/licenses/AFL-3.0).
+  * Learn about the OSL & AFL Licenses [here](http://rosenlaw.com/OSL3.0-explained.htm).

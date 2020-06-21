@@ -1,0 +1,31 @@
+#!/usr/bin/env inf
+{
+    "# echo": "[WSS:Workspace:01] Ensure certain files are ignore by 'git'.",
+
+    "# run": (run.javascript.progress (ENV) >>>
+
+        const PATH = require("path");
+        const FS = require("@pinf-it/inf/node_modules/fs-extra");
+        const ESCAPE_REGEXP = require("@pinf-it/inf/node_modules/escape-regexp");
+    
+        const path = PATH.join(ENV.WSS_WORKSPACE_ROOT_PATH, '.git/info/exclude');
+        let content = await FS.readFile(path, 'utf8');
+        let modified = false;
+    
+        async function ensureRule (rule, label) {
+            const re = ESCAPE_REGEXP(rule);
+            if (!re.match(content)) {
+                content += '\n# ' + label + ' {by:"' + ENV.WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH + '"]\n' + rule + '\n';
+                modified = true;
+            }
+        }
+    
+        ensureRule('.DS_Store', 'MacOS cache files');
+        ensureRule('.~*', 'pinf cache files');
+        ensureRule('/#!/node_modules/', 'npm packages installed by tooling');
+        ensureRule('/#!/package.json', 'descriptor for npm packages installed by tooling');
+        ensureRule('/#!/package-lock.json', 'lockfile for npm packages installed by tooling');
+
+        if (modified) await FS.writeFile(path, content, 'utf8');
+    <<<)
+}
