@@ -10,7 +10,11 @@ exports.inf = async function (INF) {
     return {
 
         set: function (name, value) {
-            env[name] = value;
+            if (value.substring(0, 1) === "$") {
+                env[name] = process.env[value.replace(/^\$/, '')] || '';
+            } else {
+                env[name] = value;
+            }
         },
 
         env: function () {
@@ -24,6 +28,12 @@ exports.inf = async function (INF) {
 
             if (/^if\(\)/.test(pointer)) {
                 let name = pointer.replace(/^if\(\)\s*/, '');
+                let nameParts = name.split(' ');
+                let expected = null;
+                if (nameParts.length === 2) {
+                    name = nameParts[0];
+                    expected = nameParts[1];                    
+                }
 
                 const inverse = (name.substring(0, 1) === '!');
                 if (inverse) {
@@ -45,6 +55,9 @@ exports.inf = async function (INF) {
                             undefined
                         )
                     );
+                }
+                if (expected !== null) {
+                    val = (val == expected);
                 }
                 if (
                     inverse && !val ||

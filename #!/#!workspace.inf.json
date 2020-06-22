@@ -1,0 +1,20 @@
+#!/usr/bin/env inf
+{
+    "ENV #": "./env.",
+    "ENV # set() WSS_WORKSPACE_MODE": "$WSS_WORKSPACE_MODE",
+    "ENV # set() WSS_WORKSPACE_ROOT_PATH": "${__DIR_PARENT_PATH__}",
+    "ENV # set() WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH": "${__FILE__}",
+    "ENV $": "ENV # env()",
+
+    "#": "./Workspace-01-git.",
+    "#": "./Workspace-02-shell.",
+    "#": "./Workspace-04-service.",
+
+    "ENV # if() WSS_WORKSPACE_MODE local-dev": (inf () >>>
+        {
+            "# echo": "[WSS:Workspace:02] Starting shell wrapper.",
+
+            "shell # start()": ""
+        }
+    <<<)
+}

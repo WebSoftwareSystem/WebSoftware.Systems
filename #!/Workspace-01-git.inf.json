@@ -1,12 +1,14 @@
 #!/usr/bin/env inf
 {
-    "#": "./Workspace-01/git.",
+    "# echo": "[WSS:Workspace:01] Start booting git workspace.",
+
+    "#": "./Workspace-01-git/git.",
 
     "ENV # if() !CI": (inf () >>>
         {
             "# echo": "[WSS:Workspace:01] Running in local development mode.",
 
-            "#": "./Workspace-01/github-actions."
+            "#": "./Workspace-01-git/github-actions."
         }
     <<<),
     "ENV # if() CI": (inf () >>>

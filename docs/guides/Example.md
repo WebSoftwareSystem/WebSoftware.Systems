@@ -34,7 +34,7 @@ This is achieved by treating all aspects of the system in code and ensuring that
 
 The `pinf.it` tool provides such a mechanism to a project codebase and is used to bootstrap this WSS. In further examples below, the capabilities of `pinf.it` will be detailed with a focus of what they bring. The reader is cautioned that the `pinf.it` tool is under active development and not yet recommended for use outside of specific exploratory projects as there is no support available.
 
-When the user runs `./run.sh`, this WSS is started using `pinf.it ./` which will boot up a **Virtual System Model** that is populated by mapped interface definitions of components that make up the system. To provide a surface for interaction with the system, a **Development Workspace** is composed and made manifest by sequentially executing the instructions in `#!/#!inf.json`.
+When the user runs `./run.sh`, this WSS is started using `pinf.it ./#!/#!workspace.inf.json` which will boot up a **Virtual System Model** that is populated by mapped interface definitions of components that make up the system. To provide a surface for interaction with the system, a **Development Workspace** is composed and made manifest by sequentially executing the instructions in `#!/#!workspace.inf.json`.
 
 Details about the **Virtual System Model** will follow after sufficient practical aspects of a WSS are covered as the reader requires some background in order to appreciate the concerns that the model is cohering.
 
@@ -54,8 +54,8 @@ A WSS workspace is booted using **one command** which will start the system and 
 The flow of the workspace boot process follows including an outline of the environment that each level provides.
 
   * The user invokes `./run.sh` as the only command needed to open the workspace.
-  * `pinf.it` sequentially executes instructions from `#!/#!inf.json`.
-  * `#!/#!inf.json` holds step by step instructions to compose and launch workspace environments using pre-built tools.
+  * `pinf.it` sequentially executes instructions from `#!/#!workspace.inf.json`.
+  * `#!/#!workspace.inf.json` holds step by step instructions to compose and launch workspace environments using pre-built tools.
   * The **first** workspace level that is booted is a `bash` **shell** interface that is opened in the same terminal where the user invoked the system.
 
 ### Workspace Level 01: `.git` repository
@@ -117,4 +117,4 @@ This boot stability property can be satisfied in a *local context* by booting th
 
 Tools can be employed to configure [Github Actions](https://github.com/features/actions) and other services through minimal configuration and thus the pursuit of **solid stability** can be easily seeded for any project. The reader is cautioned that the use of Github is not necessarily recommended and only suggested to easily satisfy this boot stability property, and others, in cases where the author feels it is appropriate. There are many other options available and the free exchange to how a property is realized is an essential tenet of a WSS.
 
-The bootstrap control flow of the `git` workspace level of this WSS project can be found in `./#!/Workspace-01.inf.json` which references instruction modules from `./#!/Workspace-01/*.inf.json`.
+The bootstrap control flow of the `git` workspace level of this WSS project can be found in `#!/Workspace-01-git.inf.json` which references instruction modules from `#!/Workspace-01-git/*.inf.json`.

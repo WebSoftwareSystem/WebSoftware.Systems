@@ -1,19 +1,44 @@
 #!/usr/bin/env bash
 
-function _heading {
+################################################################################
+#-- [WSS] ---------------------------------------------------------------------#
+################################################################################
+
+echo "[WSS] Start booting with pwd: $(pwd)"
+
+if [ ! -e "#!/#!workspace.inf.json" ]; then
+    echo "[WSS] ERROR: 'run.sh' must be invoked from the root of the WSS repository!"
+    exit 1
+fi
+
+################################################################################
+#-- [WSS:Workspace] -----------------------------------------------------------#
+################################################################################
+
+
+function _HEADING {
     echo "[WSS:Workspace:02] ${1}"
 }
 
-################################################################################
-_heading "Start booting shell workspace."
-################################################################################
+function _WSS_EXIT {
+    # TODO: Make red
+    echo "[WSS:Workspace:02] ERROR: ${2}"
+    exit ${1}
+}
 
-# TODO: Ensure CWD is at root of repo.
+
+################################################################################
+if [ -z "${CI}" ]; then
+    _HEADING "Start booting shell workspace in local development mode."
+    export WSS_WORKSPACE_MODE="local-dev"
+else
+    _HEADING "Start booting shell workspace in continuous integration mode."
+    export WSS_WORKSPACE_MODE="ci"
+fi
 
 
 ################################################################################
-_heading "Exporting core workspace environment variables."
-################################################################################
+_HEADING "Exporting core workspace environment variables."
 
 export WSS_WORKSPACE_ROOT_PATH="$(pwd)"
 export WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/#!inf.json"
@@ -22,38 +47,61 @@ export PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules/.bin:${PATH}"
 export NODE_PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules:${NODE_PATH}"
 
 
-# TODO: Test requirements.
+if [ -z "${CI}" ]; then
+    ################################################################################
+    _HEADING "Testing local development environment."
+
+    if ! which git > /dev/null; then
+        _WSS_EXIT 1 "'git' command not found! Install it yourself and re-run."
+    fi
+
+    if ! which docker > /dev/null; then
+        _WSS_EXIT 1 "'docker' command not found! Install it yourself and re-run."
+    fi
+
+    ################################################################################
+    _HEADING "Ensuring 'node' v12.13 using 'nvm'."
+
+    # TODO: Only include if 'nvm' is not found as a function.
+    [ ! -e ~/.bash_profile ] || . ~/.bash_profile
+
+    # Long-term support (LTS) - https://nodejs.org/en/about/releases/
+    nvm use 12.18.1 \
+        || nvm install 12.18.1 \
+        || _WSS_EXIT 1 "'nvm' function not functional after sourcing '~/.bash_profile'! Fix it yourself and re-run."
+fi
+
+if ! which node > /dev/null; then
+    _WSS_EXIT 1 "'node' command not found! Install it yourself and re-run."
+fi
 
 ################################################################################
-_heading "Ensuring 'node' v12.13 using 'nvm'."
-################################################################################
-
-#nvm use 12.13
-
-
-################################################################################
-_heading "Ensuring 'pinf.it' is installed."
-################################################################################
+_HEADING "Ensuring 'pinf.it' and other tools are installed."
 
 pushd "${WSS_WORKSPACE_ROOT_PATH}/#!" > /dev/null
-    if [ ! -e "package.json" ]; then
-        echo '{}' > package.json
+    if [ ! -e "npm-shrinkwrap.json" ] && [ -e "${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules" ]; then
+        rm -Rf "${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules"
     fi
-    if [ ! -e "${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules/.bin/pinf.it" ]; then
-        # TODO: Install a distribution build of 'pinf.it' that can be locked by checksum.
-        npm install @pinf-it/core@0.1.0-pre.0
+    if [ ! -e "${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules" ]; then
+        if [ -e "npm-shrinkwrap.json" ]; then
+            npm ci
+        else
+            npm install
+            npm shrinkwrap
+        fi
+    fi
+    if ! which pinf.it > /dev/null; then
+        _WSS_EXIT 1 "'pinf.it' command not found! Something went wrong during the install. Delete '${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules' and re-run."
     fi
 popd > /dev/null
 
 
 ################################################################################
-_heading "Act based on input arguments."
-################################################################################
+_HEADING "Act based on input arguments."
 
 if [ ":$1" == ":--help" ]; then
     ################################################################################
-    _heading "Display usage information."
-    ################################################################################
+    _HEADING "Display usage information."
 
     echo '
   Usage: run.sh [<Options>]
@@ -65,12 +113,11 @@ if [ ":$1" == ":--help" ]; then
 '
 else
     ################################################################################
-    _heading "Run workspace instructions from './#!/#!inf.json' using 'pinf.it'."
-    ################################################################################
+    _HEADING "Run workspace instructions from './#!/#!inf.json' using 'pinf.it'."
 
     pushd "${WSS_WORKSPACE_ROOT_PATH}" > /dev/null
 
-        pinf.it ./ -- $@
+        pinf.it "./#!/#!workspace.inf.json" -- $@
 
     popd > /dev/null
 fi
