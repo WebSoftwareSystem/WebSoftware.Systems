@@ -1,5 +1,7 @@
 {
   "dependencies": {
-    "@pinf-it/core": "0.1.0-pre.0"
+    "@pinf-it/core": "0.1.0-pre.0",
+    "morgan": "^1.10.0",
+    "express": "^4.17.1"
   }
 }

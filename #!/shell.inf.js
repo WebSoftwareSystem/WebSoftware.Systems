@@ -5,6 +5,8 @@ exports.inf = async function (INF) {
 
     const READLINE = require('readline');
 
+    const waitforDeferred = INF.LIB.Promise.defer();
+
     return {
 
         start: async function () {
@@ -13,8 +15,14 @@ exports.inf = async function (INF) {
                 input: process.stdin,
                 output: process.stdout
             });
+            let shutdown = false;
             rl.on('close', function () {
-                INF.emit('shutdown');
+                waitforDeferred.resolve();
+                shutdown = true;
+                INF.LIB.ENV.emit('shutdown');
+            });
+            INF.LIB.ENV.on('shutdown', function () {
+                if (!shutdown) rl.close();
             });
 
             function showHelp () {
@@ -64,6 +72,10 @@ exports.inf = async function (INF) {
             }
 
             prompt();
+        },
+
+        waitfor: async function () {
+            await waitforDeferred.promise;
         }
     };
 }

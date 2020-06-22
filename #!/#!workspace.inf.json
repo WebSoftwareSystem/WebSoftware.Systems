@@ -4,6 +4,8 @@
     "ENV # set() WSS_WORKSPACE_MODE": "$WSS_WORKSPACE_MODE",
     "ENV # set() WSS_WORKSPACE_ROOT_PATH": "${__DIR_PARENT_PATH__}",
     "ENV # set() WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH": "${__FILE__}",
+    "ENV # set() WSS_WORKSPACE_SERVICE_PORT": "8080",
+    "ENV # set() WSS_WORKSPACE_SERVICE_BIND": "127.0.0.1",
     "ENV $": "ENV # env()",
 
     "#": "./Workspace-01-git.",
@@ -16,16 +18,36 @@
 
             "service # start()": "",
 
-            "# echo": "[WSS:Workspace:02] Starting shell wrapper.",
+            "# echo": "[WSS:Workspace:04] Workspace HTTP service running at: http://${ENV.WSS_WORKSPACE_SERVICE_BIND}:${ENV.WSS_WORKSPACE_SERVICE_PORT}/",
+
+            "# echo": "[WSS:Workspace:02] Starting shell wrapper in readline mode.",
 
             "shell # start()": ""
         }
     <<<),
-    "ENV # if() WSS_WORKSPACE_MODE ci": (inf () >>>
+    "ENV # if() WSS_WORKSPACE_MODE ci": (inf (EMV) >>>
         {
             "# echo": "[WSS:Workspace:04] Booting HTTP service on CI container's operating system.",
 
-            "service # start()": ""
+            "service # start()": "",
+
+            "# echo": "[WSS:Workspace:04] Workspace HTTP service running at: http://${ENV.WSS_WORKSPACE_SERVICE_BIND}:${ENV.WSS_WORKSPACE_SERVICE_PORT}/"
+        }
+    <<<),
+
+    "# echo": "[WSS:Workspace:02] TODO: Running test request against workspace service.",
+
+    "gi0.PINF.it/build/v0 @ # onDone()": (inf () >>>
+        {
+            "ENV # if() WSS_WORKSPACE_MODE local-dev": (inf () >>>
+                {
+                    "shell # waitfor()": ""
+                }
+            <<<),
+
+            "# echo": "[WSS:Workspace:04] Shutting down workspace HTTP service.",
+
+            "service # stop()": ""
         }
     <<<)
 }

@@ -3,7 +3,7 @@
 
 exports.inf = async function (INF) {
 
-    const env = {};
+    const env = new INF.LIB.EventEmitter();
     INF.LIB.ENV = env;
 
     const args = INF.LIB.MINIMIST(INF.options._);
