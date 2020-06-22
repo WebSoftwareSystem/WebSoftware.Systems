@@ -2,7 +2,6 @@
 {
     "# echo": "[WSS:Workspace:01] Configuring Github Actions.",
 
-    "#": "gi0.PINF.it/core/v0",
     "#": {
         "/.~/gi0.Sourcemint.org~sm.act/workflows": "sm.act"
     },

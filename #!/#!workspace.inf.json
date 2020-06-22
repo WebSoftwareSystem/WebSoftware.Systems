@@ -1,5 +1,7 @@
 #!/usr/bin/env inf
 {
+    "#": "gi0.PINF.it/core/v0",
+
     "ENV #": "./env.",
     "ENV # set() WSS_WORKSPACE_MODE": "$WSS_WORKSPACE_MODE",
     "ENV # set() WSS_WORKSPACE_ROOT_PATH": "${__DIR_PARENT_PATH__}",
