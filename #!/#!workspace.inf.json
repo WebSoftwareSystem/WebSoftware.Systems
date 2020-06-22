@@ -12,9 +12,20 @@
 
     "ENV # if() WSS_WORKSPACE_MODE local-dev": (inf () >>>
         {
+            "# echo": "[WSS:Workspace:04] Booting HTTP service on user's host operating system.",
+
+            "service # start()": "",
+
             "# echo": "[WSS:Workspace:02] Starting shell wrapper.",
 
             "shell # start()": ""
+        }
+    <<<),
+    "ENV # if() WSS_WORKSPACE_MODE ci": (inf () >>>
+        {
+            "# echo": "[WSS:Workspace:04] Booting HTTP service on CI container's operating system.",
+
+            "service # start()": ""
         }
     <<<)
 }

@@ -4,14 +4,14 @@
 
     "#": "./Workspace-01-git/git.",
 
-    "ENV # if() !CI": (inf () >>>
+    "ENV # if() WSS_WORKSPACE_MODE local-dev": (inf () >>>
         {
             "# echo": "[WSS:Workspace:01] Running in local development mode.",
 
             "#": "./Workspace-01-git/github-actions."
         }
     <<<),
-    "ENV # if() CI": (inf () >>>
+    "ENV # if() WSS_WORKSPACE_MODE ci": (inf () >>>
         {
             "# echo": "[WSS:Workspace:01] Running in continuous integration mode."
 

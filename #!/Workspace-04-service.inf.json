@@ -1,10 +1,6 @@
 #!/usr/bin/env inf
 {
-    "# echo": "[WSS:Workspace:04] Start booting HTTP service.",
+    "# echo": "[WSS:Workspace:04] Loading HTTP service.",
 
-
-    "# echo": "[WSS:Workspace:04] Booting HTTP service on user's host operating system.",
-
-    "service #": "./service.",
-    "service # start()": ""
+    "service #": "./service."
 }

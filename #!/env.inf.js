@@ -4,6 +4,7 @@
 exports.inf = async function (INF) {
 
     const env = {};
+    INF.LIB.ENV = env;
 
     const args = INF.LIB.MINIMIST(INF.options._);
 
