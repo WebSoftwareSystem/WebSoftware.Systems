@@ -24,8 +24,7 @@
     
         ensureRule('.DS_Store', 'MacOS cache files');
         ensureRule('.~*', 'pinf cache files');
-        ensureRule('/#!/node_modules/', 'npm packages installed by tooling');
-        ensureRule('/#!/package-lock.json', 'lockfile for npm packages installed by tooling');
+        ensureRule('.tmp/', 'temporary directories used in tests');
 
         if (modified) await FS.writeFile(path, content, 'utf8');
     <<<)

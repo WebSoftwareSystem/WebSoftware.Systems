@@ -1,0 +1,164 @@
+#!/usr/bin/env bash
+
+if [ -z "${WSS_SOURCE_ROOT_PATH}" ]; then
+    echo "[WSS] ERROR: 'WSS_SOURCE_ROOT_PATH' must be set! Run via 'wss-run'!"
+    exit 1
+fi
+
+################################################################################
+#-- [WSS] ---------------------------------------------------------------------#
+################################################################################
+
+echo "[WSS] Start booting with pwd: $(pwd)"
+
+if [ ! -e ".git" ]; then
+    echo "[WSS] ERROR: 'run.sh' must be invoked from the root of a git repository!"
+    exit 1
+fi
+
+if [ ":$1" == ":init" ]; then
+    if [ -e "#!/websoftware.systems" ]; then
+        echo "[WSS] ERROR: Cannot initialize. Looks like 'websoftware.systems' is already initialized at '#!/websoftware.systems'!"
+        exit 1
+    fi
+    if [ -e "run.sh" ]; then
+        echo "[WSS] ERROR: Cannot initialize. Looks like repository already has a 'run.sh' file at the root!"
+        exit 1
+    fi
+
+    [ -e "#!" ] || mkdir "#!"
+
+    ln -s "${WSS_SOURCE_ROOT_PATH}" "#!/websoftware.systems"
+    ln -s "#!/websoftware.systems/bin/wss-run" "run.sh" && chmod u+x "run.sh"
+
+    echo "[WSS] Initialized WSS at #!/websoftware.systems' and linked to './run.sh'."
+
+    exit 0
+fi
+
+if [ ! -e "#!/#!workspace.inf.json" ]; then
+    echo "[WSS] ERROR: 'run.sh' must be invoked from the root of the WSS repository!"
+    exit 1
+fi
+
+################################################################################
+#-- [WSS:Workspace] -----------------------------------------------------------#
+################################################################################
+
+
+function _LOG {
+    echo "[WSS:Workspace:02] ${1}"
+}
+
+function _WSS_EXIT {
+    # TODO: Make red
+    echo "[WSS:Workspace:02] ERROR: ${2}"
+    exit ${1}
+}
+
+
+################################################################################
+if [ -z "${CI}" ]; then
+    _LOG "Start booting shell workspace in local development mode."
+    export WSS_WORKSPACE_MODE="local-dev"
+else
+    _LOG "Start booting shell workspace in continuous integration mode."
+    export WSS_WORKSPACE_MODE="ci"
+fi
+
+
+################################################################################
+_LOG "Exporting core workspace environment variables."
+
+export WSS_SOURCE_ROOT_PATH
+_LOG "WSS_SOURCE_ROOT_PATH: ${WSS_SOURCE_ROOT_PATH}"
+
+export WSS_WORKSPACE_ROOT_PATH="$(pwd)"
+_LOG "WSS_WORKSPACE_ROOT_PATH: ${WSS_WORKSPACE_ROOT_PATH}"
+
+export WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH="$(dirname "${WSS_SOURCE_ROOT_PATH}/#!workspace.json")"
+
+PATH="${WSS_SOURCE_ROOT_PATH}/#!/bin:${WSS_SOURCE_ROOT_PATH}/#!/node_modules/.bin:${PATH}"
+export PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/bin:${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules/.bin:${PATH}"
+NODE_PATH="${WSS_SOURCE_ROOT_PATH}/#!/node_modules:${NODE_PATH}"
+export NODE_PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules:${NODE_PATH}"
+
+
+if [ -z "${CI}" ]; then
+    ################################################################################
+    _LOG "Testing local development environment."
+
+    if ! which git > /dev/null; then
+        _WSS_EXIT 1 "'git' command not found! Install it yourself and re-run."
+    fi
+
+    if ! which docker > /dev/null; then
+        _WSS_EXIT 1 "'docker' command not found! Install it yourself and re-run."
+    fi
+
+    ################################################################################
+    _LOG "Ensuring 'node' v12.13 using 'nvm'."
+
+    # TODO: Only include if 'nvm' is not found as a function.
+    [ ! -e ~/.bash_profile ] || . ~/.bash_profile
+
+    # Long-term support (LTS) - https://nodejs.org/en/about/releases/
+    nvm use 12.18.1 \
+        || nvm install 12.18.1 \
+        || _WSS_EXIT 1 "'nvm' function not functional after sourcing '~/.bash_profile'! Fix it yourself and re-run."
+fi
+
+if ! which node > /dev/null; then
+    _WSS_EXIT 1 "'node' command not found! Install it yourself and re-run."
+fi
+
+################################################################################
+_LOG "Ensuring 'pinf.it' and other tools are installed."
+
+pushd "${WSS_SOURCE_ROOT_PATH}" > /dev/null
+    if [ ! -e "npm-shrinkwrap.json" ] && [ -e "${WSS_SOURCE_ROOT_PATH}/node_modules" ]; then
+        rm -Rf "${WSS_SOURCE_ROOT_PATH}/node_modules"
+    fi
+    if [ ! -e "${WSS_SOURCE_ROOT_PATH}/node_modules" ]; then
+        if [ -e "npm-shrinkwrap.json" ]; then
+            npm ci
+        else
+            npm install
+            npm shrinkwrap
+        fi
+    fi
+    if ! which pinf.it > /dev/null; then
+        _WSS_EXIT 1 "'pinf.it' command not found! Something went wrong during the install. Delete '${WSS_SOURCE_ROOT_PATH}/node_modules' and re-run."
+    fi
+popd > /dev/null
+
+
+################################################################################
+_LOG "Run workspace instructions from './#!/#!inf.json' using 'pinf.it'."
+
+pushd "${WSS_WORKSPACE_ROOT_PATH}" > /dev/null
+
+    if [ ":$1 $2" == ":--reset w01" ]; then
+
+        echo "[WSS:Workspace:01] Resetting Workspace Level 01 (git)"
+
+        # TODO: Relocate to 'sm.act'
+        echo "[WSS:Workspace:01] Resetting 'sm' branch and cache."
+
+        if [ -e ".~/gi0.Sourcemint.org~sm/branch" ]; then
+            pushd ".~/gi0.Sourcemint.org~sm/branch" > /dev/null
+                git push "sm" --delete sm/master || true
+            popd > /dev/null
+            rm -Rf ".~/gi0.Sourcemint.org~sm"*
+        fi
+    fi
+
+#    export WSS_WORKSPACE_AUTO_RESTART=
+
+    pinf.it "./#!/#!workspace.inf.json" -- $@
+
+    # if [ ! -z "${WSS_WORKSPACE_AUTO_RESTART}" ]; then
+    #     "${WSS_SOURCE_ROOT_PATH}/bin/wss"
+    # fi
+
+popd > /dev/null

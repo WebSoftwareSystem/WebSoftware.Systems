@@ -1,0 +1,7 @@
+
+      help (h)              This help information.
+      *                     Any valid bash command instruction line.
+
+      test (t)              Run all tests.
+      publish (p)           Share the git repository with others.
+      commit (c)            Open GUI to commit changes.

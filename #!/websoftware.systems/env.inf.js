@@ -7,6 +7,9 @@ exports.inf = async function (INF) {
     INF.LIB.ENV = env;
 
     const args = INF.LIB.MINIMIST(INF.options._);
+    
+    env.WSS_WORKSPACE_CLI_COMMAND = args._[0] || '';
+    env.WSS_WORKSPACE_CLI_ARGS = INF.options._.slice(1).join('\n');
 
     return {
 

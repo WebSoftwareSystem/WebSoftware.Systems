@@ -1,5 +1,7 @@
 #!/usr/bin/env inf
 {
+    "#": "gi0.PINF.it/core/v0",
+
     "# echo": "[WSS:Workspace:01] Configuring Github Actions.",
 
     "#": {
@@ -10,25 +12,6 @@
 
     "gi0.PINF.it/build/v0 @ # /": (inf () >>>
         {
-            "ENV # if() --reset w01": (inf () >>>
-                {
-                    "# echo": "[WSS:Workspace:01] Resetting Workspace Level 01 (git)",
-
-                    "# run": (run.bash.progress (ENV) >>>
-
-                        # TODO: Relocate to 'sm.act'
-
-                        echo "[WSS:Workspace:01] Resetting 'sm' branch and cache."
-
-                        if [ -e ".~/gi0.Sourcemint.org~sm/branch" ]; then
-                            pushd ".~/gi0.Sourcemint.org~sm/branch" > /dev/null
-                                git push "sm" --delete sm/master || true
-                            popd > /dev/null
-                            rm -Rf ".~/gi0.Sourcemint.org~sm"*
-                        fi
-                    <<<)
-                }
-            <<<),
             "gi0.PINF.it/build/v0 @ # :github.actions: workflow() /.~/gi0.Sourcemint.org~sm.act/workflows/Workspace": (json () >>>
                 {
                     "name": "Workspace",

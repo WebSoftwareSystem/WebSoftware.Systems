@@ -31,7 +31,7 @@ Usage
     cd WebSoftware.Systems
 
     ./run.sh
-    ./run.sh --help
+    ./run.sh help
 
 Licenses
 ========

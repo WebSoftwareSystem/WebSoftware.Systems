@@ -1,6 +1,0 @@
-#!/usr/bin/env inf
-{
-    "# echo": "[WSS:Workspace:02] Loading shell wrapper.",
-
-    "shell #": "./shell."
-}

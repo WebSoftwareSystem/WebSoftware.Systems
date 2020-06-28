@@ -1,0 +1,53 @@
+#!/usr/bin/env bash
+
+function deriveOurDir {
+	# @source https://github.com/bash-origin/bash.origin/blob/master/bash.origin
+	function BO_deriveSelfDir {
+		# @source http://stackoverflow.com/a/246128/330439
+		local SOURCE="$1"
+		local DIR=""
+		while [ -h "$SOURCE" ]; do
+            DIR="$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+            SOURCE="$(readlink "$SOURCE")"
+            [[ $SOURCE != /* ]] && SOURCE="$DIR/$SOURCE"
+		done
+		echo "$( cd -P "$( dirname "$SOURCE" )" && pwd )"
+	}
+	BO_deriveSelfDir "${BASH_SOURCE[0]:-$0}"
+}
+
+export WSS_SOURCE_ROOT_PATH="$(dirname $(deriveOurDir))"
+
+if [ ":$1" == ":help" ]; then
+    echo '
+Web Software System (WSS) external command-line interface.
+Run from the root of a git repository working directory.
+
+  Usage: run.sh [<Options>] [<Command>]
+
+  <Options>:
+
+      --reset <Aspect>      Where <Aspect> is one of:
+                              w01      Workspace Level 01 (git)
+
+  <Command>:
+
+      init                  Initialize a WSS for the git repository.
+      <>                    (No command) Open workspace in interactive mode.'
+
+    cat "${WSS_SOURCE_ROOT_PATH}/Workspace-02-shell/help.txt"
+
+    echo ""
+
+    exit 0
+fi
+
+"${WSS_SOURCE_ROOT_PATH}/bin/wss" $@
+
+while [ -e "${WSS_SOURCE_ROOT_PATH}/.~trigger-workspace-restart" ]; do
+    rm "${WSS_SOURCE_ROOT_PATH}/.~trigger-workspace-restart"
+
+    echo "[WSS] --- restarting workspace ---"
+
+    "${WSS_SOURCE_ROOT_PATH}/bin/wss" $@
+done

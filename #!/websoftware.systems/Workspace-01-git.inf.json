@@ -6,9 +6,8 @@
 
     "ENV # if() WSS_WORKSPACE_MODE local-dev": (inf () >>>
         {
-            "# echo": "[WSS:Workspace:01] Running in local development mode.",
+            "# echo": "[WSS:Workspace:01] Running in local development mode."
 
-            "#": "./Workspace-01-git/github-actions."
         }
     <<<),
     "ENV # if() WSS_WORKSPACE_MODE ci": (inf () >>>
