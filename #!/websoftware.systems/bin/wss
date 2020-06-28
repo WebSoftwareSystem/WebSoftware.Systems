@@ -78,9 +78,9 @@ _LOG "WSS_WORKSPACE_ROOT_PATH: ${WSS_WORKSPACE_ROOT_PATH}"
 
 export WSS_WORKSPACE_INSTRUCTIONS_ROOT_PATH="$(dirname "${WSS_SOURCE_ROOT_PATH}/#!workspace.json")"
 
-PATH="${WSS_SOURCE_ROOT_PATH}/#!/bin:${WSS_SOURCE_ROOT_PATH}/#!/node_modules/.bin:${PATH}"
+PATH="${WSS_SOURCE_ROOT_PATH}/bin:${WSS_SOURCE_ROOT_PATH}/node_modules/.bin:${PATH}"
 export PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/bin:${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules/.bin:${PATH}"
-NODE_PATH="${WSS_SOURCE_ROOT_PATH}/#!/node_modules:${NODE_PATH}"
+NODE_PATH="${WSS_SOURCE_ROOT_PATH}/node_modules:${NODE_PATH}"
 export NODE_PATH="${WSS_WORKSPACE_ROOT_PATH}/#!/node_modules:${NODE_PATH}"
 
 
