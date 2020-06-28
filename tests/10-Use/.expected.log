@@ -1,0 +1,26 @@
+Initialized empty Git repository in TeStLoCaLiZeD/.tmp/.git/
+[WSS] Start booting with pwd: TeStLoCaLiZeD/.tmp
+[WSS] Initialized WSS at #!/websoftware.systems' and linked to './run.sh'.
+
+Web Software System (WSS) external command-line interface.
+Run from the root of a git repository working directory.
+
+  Usage: run.sh [<Options>] [<Command>]
+
+  <Options>:
+
+      --reset <Aspect>      Where <Aspect> is one of:
+                              w01      Workspace Level 01 (git)
+
+  <Command>:
+
+      init                  Initialize a WSS for the git repository.
+      <>                    (No command) Open workspace in interactive mode.
+
+      help (h)              This help information.
+      *                     Any valid bash command instruction line.
+
+      test (t)              Run all tests.
+      publish (p)           Share the git repository with others.
+      commit (c)            Open GUI to commit changes.
+
