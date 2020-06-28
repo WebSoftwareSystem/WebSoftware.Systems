@@ -1,0 +1,32 @@
+#!/usr/bin/env inf
+{
+    "# echo": "[WSS:Workspace:02] Loading shell wrapper.",
+
+    "shell #": "./shell.",
+
+    "shell # onCommand() h help": (bash () >>>
+
+        echo -e "\n  Commands:"
+
+        cat "${WSS_SOURCE_ROOT_PATH}/Workspace-02-shell/help.txt"
+
+        echo ""
+    <<<),
+    "shell # onCommand() p publish": (bash () >>>
+
+        pinf.it "${WSS_SOURCE_ROOT_PATH}/Workspace-01-git/github-actions.inf.json"
+
+    <<<),
+    "shell # onCommand() t test": (bash () >>>
+
+        # TODO: Make script to run configurable.
+
+        bash.origin.test tests ${ARGS}
+    <<<),
+    "shell # onCommand() c commit": (bash () >>>
+
+        # TODO: Make script to run configurable.
+
+        fork .
+    <<<)
+}

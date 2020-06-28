@@ -21,7 +21,7 @@ When building a Web Software System (WSS) a core set of tools are necessary and 
     cd WebSoftware.Systems
 
     ./run.sh
-    ./run.sh --help
+    ./run.sh help
 
 03 - Bootstrapping
 ------------------
@@ -32,7 +32,7 @@ This progression is tracked in terms of code through the history of the `git` re
 
 This is achieved by treating all aspects of the system in code and ensuring that all aspects can be reached by executing one central code path. Thus a systems codebase and project becomes the system as the project is executed to bootstrap the system for development and production purposes.
 
-The `pinf.it` tool provides such a mechanism to a project codebase and is used to bootstrap this WSS. In further examples below, the capabilities of `pinf.it` will be detailed with a focus of what they bring. The reader is cautioned that the `pinf.it` tool is under active development and not yet recommended for use outside of specific exploratory projects as there is no support available.
+The `pinf.it` tool provides such a mechanism to a project codebase and is used to bootstrap this WSS. In further examples below, some of the capabilities of `pinf.it` will be detailed with a focus on what they bring. The reader is cautioned that the `pinf.it` tool is under active development and not yet recommended for use outside of specific exploratory projects as there is no support available. How `pinf.it` and other tools exactly work is out of the scope of this WSS guide as the focus of the guide is on the overall WSS approach in general, irrespective of how it is implemented in detail.
 
 When the user runs `./run.sh`, this WSS is started using `pinf.it ./#!/#!workspace.inf.json` which will boot up a **Virtual System Model** that is populated by mapped interface definitions of components that make up the system. To provide a surface for interaction with the system, a **Development Workspace** is composed and made manifest by sequentially executing the instructions in `#!/#!workspace.inf.json`.
 
